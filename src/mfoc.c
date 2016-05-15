@@ -54,7 +54,6 @@
 
 //SLRE 
 #include "slre.h"
-#include "slre.c"
 
 nfc_context *context;
 

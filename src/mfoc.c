@@ -294,6 +294,13 @@ int main(int argc, char *const argv[])
       t.num_sectors = NR_TRAILERS_1k;
       t.num_blocks = NR_BLOCKS_1k;
       break;
+    case 0x28:
+    case 0x48:
+    case 0x68:
+      printf("Found Mifare Classic 1k tag (emulated)\n");
+      t.num_sectors = NR_TRAILERS_1k;
+      t.num_blocks = NR_BLOCKS_1k;
+      break;
     case 0x09:
       printf("Found Mifare Classic Mini tag\n");
       t.num_sectors = NR_TRAILERS_MINI;
@@ -301,6 +308,13 @@ int main(int argc, char *const argv[])
       break;
     case 0x18:
       printf("Found Mifare Classic 4k tag\n");
+      t.num_sectors = NR_TRAILERS_4k;
+      t.num_blocks = NR_BLOCKS_4k;
+      break;
+    case 0x38:
+    case 0x58:
+    case 0x78:
+      printf("Found Mifare Classic 4k tag (emulated)\n");
       t.num_sectors = NR_TRAILERS_4k;
       t.num_blocks = NR_BLOCKS_4k;
       break;

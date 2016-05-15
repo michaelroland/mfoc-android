@@ -38,6 +38,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <inttypes.h>
+
 #include <unistd.h>
 
 // NFC
@@ -283,6 +285,20 @@ int main(int argc, char *const argv[])
   }
 
   t.authuid = (uint32_t) bytes_to_num(t.nt.nti.nai.abtUid + t.nt.nti.nai.szUidLen - 4, 4);
+
+  if (t.nt.nti.nai.szUidLen == 4) {
+    fprintf(stdout, "Found tag with UID %08" PRIx32 "\n", t.authuid);
+  } else if (t.nt.nti.nai.szUidLen == 7) {
+    fprintf(stdout, "Found tag with UID %014" PRIx64 ", relevant UID bytes are %08" PRIx32 "\n", (uint64_t) bytes_to_num(t.nt.nti.nai.abtUid, t.nt.nti.nai.szUidLen), t.authuid);
+  } else {
+    fprintf(stdout, "Found tag with UID ");
+    for (int i = 0; i < t.nt.nti.nai.szUidLen; ++i) {
+      fprintf(stdout, "%02" PRIx8, t.nt.nti.nai.abtUid[i]);
+    }
+    fprintf(stdout, ", relevant UID bytes are %08" PRIx32 "\n", t.authuid);
+    //ERR("Found tag with unexpected UID length %d", t.nt.nti.nai.szUidLen);
+    //goto error;
+  }
 
   // Get Mifare Classic type from SAK
   // see http://www.nxp.com/documents/application_note/AN10833.pdf Section 3.2
